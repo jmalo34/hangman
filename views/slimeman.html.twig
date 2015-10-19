@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>Slimeman</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+</head>
+<body>
+    <div class='container'>
+        <h1>Slimeman</h1>
+        {% if ya_guess is true %}
+        <p>Yay! You guessed right!</p>
+            {% else %}
+                <p>Oh No! Your guess was incorrect!</p>
+        {% endif %}
+        <form action='/new_guess'>
+            <button type='submit'>Let's Play</button>
+        </form>
+    </div>
+</body>
+</html>

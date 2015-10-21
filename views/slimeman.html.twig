@@ -6,12 +6,20 @@
 <body>
     <div class='container'>
         <h1>Slimeman</h1>
-        {% if ya_guess is true %}
-        <p>Yay! You guessed right!</p>
-            {% else %}
-                <p>Oh No! Your guess was incorrect!</p>
-        {% endif %}
-        <form action='/new_guess'>
+        {% if alreadys is not empty %}
+            <p>letters already used:</p>
+                <p>
+                    {% for already in alreadys %}
+                        {{ already.getAlready }}
+                    <!-- {% endfor %} -->
+                </p>
+        <!-- {% endif %} -->
+        <br>
+        <img src='{{ already.getAttempts }}'>
+
+
+        <!-- find way to print number of chances remianing -->
+                <form action='/new_guess'>
             <button type='submit'>Let's Play</button>
         </form>
     </div>

@@ -6,19 +6,14 @@
 <body>
     <div class='container'>
         <h1>Slimeman</h1>
-        {% if alreadys is not empty %}
-            <p>letters already used:</p>
-                <p>
-                    {% for already in alreadys %}
-                        {{ already.getAlready }}
-                    <!-- {% endfor %} -->
-                </p>
-        <!-- {% endif %} -->
-        <br>
-        <img src='{{ already.getAttempts }}'>
+        {% if matched_letters is empty %}
+        <h2>nothing here yet</h2>
+        {% else %}
+        {% for match in matched_letters %}
+            {{ match }}
+        {% endfor %}
+        {% endif %}
 
-
-        <!-- find way to print number of chances remianing -->
                 <form action='/new_guess'>
             <button type='submit'>Let's Play</button>
         </form>

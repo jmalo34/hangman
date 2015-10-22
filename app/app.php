@@ -7,11 +7,13 @@
     session_start();
 
     $da_words = array('candy', 'yodle', 'dinosaur', 'paper', 'bottle', 'yep', 'drinking', 'tablet', 'monitor', 'candle', 'nope');
-    $da_letters = str_split(array_rand(array_flip($da_words)));
+    $winning_letters = str_split(array_rand(array_flip($da_words)));
+    // $try_it = ar
 
     if(empty($_SESSION['play_on']))
     {
-        $_SESSION['play_on']['yays'] = $da_letters;
+        $_SESSION['play_on']['wins'] = $winning_letters;
+        $_SESSION['play_on']['yays'] = array();
         $_SESSION['play_on']['nays'] = array();
     }
 
@@ -22,58 +24,59 @@
     $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__."/../views"));
 
     //ROUTES
+    // $app->get('/', function () use ($app)
+    // {
+    //     return $app['twig']->render('slimeman.html.twig');
+    // });
+
     $app->get('/', function () use ($app)
     {
-        $da_letters = Guess::getDaLetters();
+        //what info do i need to GET?
+        //yay letters = then, which letters to display and which ones not to display yet, which message to show, number of chances remaining (how many in nay array), which picture to display
+        $winning_letters = Guess::getWins();
 
-        $letters_matching_guess = array();
+        $guessed_letters = Guess::getYays();
 
-        foreach ($da_letters as $possible_match)
+        $matched_letters = array();
+
+        foreach ($winning_letters as $w)
         {
-            if ($possible_match->matchMaker($_GET['letter'], $possible_match))
+            if(in_array($w, $guessed_letters))
             {
-                array_push($letters_matching_guess, $possible_match);
-            }
-        }
+                array_push($matched_letters, $w);
+             }
+             else
+             { array_push($matched_colors, '__');
+             }
+         }
 
-        return $app['twig']->render('slimeman.html.twig', array('letters_matching_guess' => $letters_matching_guess));
+        return $app['twig']->render('slimeman.html.twig', array('matched_letters' => $matched_letters));
     });
 
     $app->get('/new_guess', function () use ($app)
     {
-        return $app['twig']->render('new_guess.html.twig');
-    });
-
-    $app->post('/', function () use ($app)
-    {
-        $attempts = count($_SESSION['play_on']['nays'];
-        //(i can't use getAttempts method here? if so, how?)
-
-        $da_letters = ($_SESSION['play_on']['yays']);
-
-        $new_guess = new Guess($_GET['letter'], $attempts, $da_letters);
-
-        foreach
-        
-        }
-
         return $app['twig']->render('slimeman.html.twig');
     });
 
-    // $app->post('/slimeman', function () use ($app)
-    // {
-    //     $da_word = Guess::chosenWord();
-    //
-    //     $da_letters = str_split($da_word);
-    //
-    //     $da_guess = new Guess($_GET['letter']);
-    //
-    //     //search da_letters array for da_guess
+    $app->post('/new_guess', function () use ($app)
+    {
+        $new_letter = new Guess($_POST['letter']);
+        $winning_letters = Guess::getWin();
 
-    //
-    //     return $app['twig']->render('slimeman.html.twig')
-    //
-    // });
+        foreach ($winning_letters as $possible_match)
+        {
+            if ($possible_match == $new_letter)
+            {
+                $new_letter->saveYay();
+            }
+            else
+            {
+                $new_letter->saveNay();
+            }
+        }
+
+        return $app['twig']->render('new_guess.html.twig');
+    });
 
     return $app;
  ?>

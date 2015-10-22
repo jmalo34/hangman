@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "e1dd71613aa7dd881f6ed46d64b72538",
+    "content-hash": "c7ecb52192a383990709345016b4aeae",
     "packages": [
         {
             "name": "pimple/pimple",

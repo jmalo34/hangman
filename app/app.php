@@ -7,15 +7,21 @@
     session_start();
 
     $da_words = array('candy', 'yodle', 'dinosaur', 'paper', 'bottle', 'yep', 'drinking', 'tablet', 'monitor', 'candle', 'nope');
+    $first_one = array('0');
     $winning_letters = str_split(array_rand(array_flip($da_words)));
-    // $try_it = ar
-
-    if(empty($_SESSION['play_on']))
+    $winning_letters = array_merge($first_one, $winning_letters);
+    $winning_instances = array();
+    foreach ($winning_letters as $w)
     {
-        $_SESSION['play_on']['wins'] = $winning_letters;
-        $_SESSION['play_on']['yays'] = array();
-        $_SESSION['play_on']['nays'] = array();
+        array_push($winning_instances, ($w = new Guess(current($winning_letters))), (next($winning_letters)));
     }
+    //
+    // if(empty($_SESSION['play_on']))
+    // {
+        $_SESSION['play_on']['wins'] = $winning_instances;
+        $_SESSION['play_on']['yays'] = array('k', 'c', 'd', 'e', 'o', 'r', 'a', 'b', 'f', 'g', 'h', 'i', 'l', 'm', 'n', 'p', 's', 't', 'u', 'w', 'y');
+        $_SESSION['play_on']['nays'] = array();
+    // }
 
 
     //INITIALIZE APPLICATION (n uhh, find out what is the up w this "debug" thang)
@@ -23,30 +29,25 @@
     $app['debug'] = TRUE;
     $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__."/../views"));
 
-    //ROUTES
-    // $app->get('/', function () use ($app)
-    // {
-    //     return $app['twig']->render('slimeman.html.twig');
-    // });
-
     $app->get('/', function () use ($app)
     {
         //what info do i need to GET?
         //yay letters = then, which letters to display and which ones not to display yet, which message to show, number of chances remaining (how many in nay array), which picture to display
-        $winning_letters = Guess::getWins();
+        $golden_letters = Guess::getWins();
 
         $guessed_letters = Guess::getYays();
 
         $matched_letters = array();
 
-        foreach ($winning_letters as $w)
+        foreach ($golden_letters as $g)
         {
-            if(in_array($w, $guessed_letters))
+            if(in_array($g, $guessed_letters))
             {
-                array_push($matched_letters, $w);
+                array_push($matched_letters, $g);
              }
              else
-             { array_push($matched_colors, '__');
+             {
+                 array_push($matched_letters, '__');
              }
          }
 
@@ -55,17 +56,15 @@
 
     $app->get('/new_guess', function () use ($app)
     {
-        return $app['twig']->render('slimeman.html.twig');
+        return $app['twig']->render('new_guess.html.twig');
     });
 
     $app->post('/new_guess', function () use ($app)
     {
         $new_letter = new Guess($_POST['letter']);
-        $winning_letters = Guess::getWin();
+        $prize_letters = Guess::getWins();
 
-        foreach ($winning_letters as $possible_match)
-        {
-            if ($possible_match == $new_letter)
+            if (in_array($new_letter, $prize_letters))
             {
                 $new_letter->saveYay();
             }
@@ -73,9 +72,9 @@
             {
                 $new_letter->saveNay();
             }
-        }
+            var_dump($prize_letters);
 
-        return $app['twig']->render('new_guess.html.twig');
+        return $app['twig']->render('slimeman.html.twig', array('new_letter' => $new_letter));
     });
 
     return $app;

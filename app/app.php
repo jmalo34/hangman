@@ -20,7 +20,8 @@
         $w = new Guess($w);
         $w->saveWin();
     }
-};
+
+    };
 
     //INITIALIZE APPLICATION (n uhh, find out what is the up w this "debug" thang)
     $app = new Silex\Application();
@@ -39,14 +40,14 @@
 
         foreach ($golden_letters as $g)
         {
-            if($g->matchUp)
+            if($g->matchUp())
             {
                 array_push($matched_letters, $g);
-             }
-             else
-             {
-                 array_push($matched_letters, '__');
-             }
+            }
+            else
+            {
+                array_push($matched_letters, '__');
+            }
          }
 
 echo "<pre>";
@@ -81,7 +82,6 @@ echo "</pre><br>";
     {
         $new_letter = new Guess($_POST['letter']);
         $golden_letters = Guess::getWins();
-        $guessed_letters = Guess::getYays();
 
             if (in_array($new_letter, $golden_letters))
             {
@@ -92,9 +92,6 @@ echo "</pre><br>";
                 $new_letter->saveNay();
             }
 
-        $incorrect_guesses = Guess::getNays();
-
-
 echo "<pre>";
 print_r($new_letter);
 echo "</pre><br>";
@@ -103,19 +100,7 @@ echo "<pre>";
 print_r($golden_letters);
 echo "</pre><br>";
 
-echo "<pre>";
-print_r($guessed_letters);
-echo "</pre><br>";
-
-echo "<pre>";
-print_r($incorrect_guesses);
-echo "</pre><br>";
-
-echo "<pre>";
-print_r($matched_letters);
-echo "</pre><br>";
-
-        return $app['twig']->render('slimeman.html.twig', array('matched_letters' => $matched_letters));
+        return $app['twig']->render('play_made.html.twig', array('new_play' => $new_letter));
     });
 
     $app->post("/restart_game", function () use ($app)

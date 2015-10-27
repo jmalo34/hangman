@@ -23,7 +23,7 @@ class Guess
 
     function displayMessage()
     {
-        $the_winners = array($_SESSION['play_on']['win']);
+        $the_winners = $_SESSION['wins'];
 
         $this->letter = $current_guess;
 
@@ -39,7 +39,7 @@ class Guess
 
     function chancesRemain()
     {
-        $attempts = (count($_SESSION['play_on']['nays']));
+        $attempts = (count($_SESSION['nays']));
         if ($attempts == 0)
         {
             $attempts = 'images/slimeman0.jpg';
@@ -72,40 +72,42 @@ class Guess
         return $attempts;
     }
 
+    function saveWin()
+    {
+        array_push($_SESSION['wins'], $this);
+    }
+
     function saveYay()
     {
-        array_push($_SESSION['play_on']['yays'], $this);
+        array_push($_SESSION['yays'], $this);
     }
 
     function saveNay()
     {
-        array_push($_SESSION['play_on']['nays'], $this);
+        array_push($_SESSION['nays'], $this);
     }
-    //
-    // function saveWin()
-    // {
-    //     array_push($SESSION['play_on']['wins'], $this);
-    // }
 
     static function getWins()
     {
-        return $_SESSION['play_on']['wins'];
+        return $_SESSION['wins'];
     }
 
     static function getYays()
     {
-        return $_SESSION['play_on']['yays'];
+        return $_SESSION['yays'];
     }
 
     static function getNays()
     {
-        return $_SESSION['play_on']['nays'];
+        return $_SESSION['nays'];
     }
 
     //implement this function after the 7th guess, using  a button labeled play again, linking to new guess page
     static function deleteAll()
     {
-        $_SESSION['play_on'] = array();
+        $_SESSION['yays'] = array();
+        $_SESSION['nays'] = array();
+        $_SESSION['wins'] = array();
     }
 
 }

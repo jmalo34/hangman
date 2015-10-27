@@ -34,13 +34,12 @@
         $golden_letters = Guess::getWins();
 
         $guessed_letters = Guess::getYays();
-        $incorrect_guesses = Guess::getNays();
 
         $matched_letters = array();
 
         foreach ($golden_letters as $g)
         {
-            if(in_array($g, $guessed_letters))
+            if($g->matchUp)
             {
                 array_push($matched_letters, $g);
              }
@@ -49,9 +48,7 @@
                  array_push($matched_letters, '__');
              }
          }
-        //  var_dump($guessed_letters);
-        //  var_dump($matched_letters);
-        //  var_dump($golden_letters);
+
 echo "<pre>";
 print_r($new_letter);
 echo "</pre><br>";
@@ -84,7 +81,7 @@ echo "</pre><br>";
     {
         $new_letter = new Guess($_POST['letter']);
         $golden_letters = Guess::getWins();
-                $guessed_letters = Guess::getYays();
+        $guessed_letters = Guess::getYays();
 
             if (in_array($new_letter, $golden_letters))
             {
@@ -96,20 +93,7 @@ echo "</pre><br>";
             }
 
         $incorrect_guesses = Guess::getNays();
-        //
-        // $matched_letters = array();
-        //
-        // foreach ($golden_letters as $g)
-        // {
-        //     if(in_array($g, $guessed_letters))
-        //     {
-        //         array_push($matched_letters, $g);
-        //      }
-        //      else
-        //      {
-        //          array_push($matched_letters, '__');
-        //      }
-        //  }
+
 
 echo "<pre>";
 print_r($new_letter);

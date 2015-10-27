@@ -21,6 +21,27 @@ class Guess
         $this->letter = $new_letter;
     }
 
+    function matchUp()
+    {
+        return (in_array($this->letter, (Guess::getYays())));
+    }
+// $golden_letters = Guess::getWins();
+// $guessed_letters = Guess::getYays();
+// $incorrect_guesses = Guess::getNays();
+// $matched_letters = array();
+//
+// foreach ($golden_letters as $g)
+// {
+//     if(in_array($g, $guessed_letters))
+//     {
+//         array_push($matched_letters, $g);
+//      }
+//      else
+//      {
+//          array_push($matched_letters, '__');
+//      }
+//  }
+
     function displayMessage()
     {
         $the_winners = $_SESSION['wins'];

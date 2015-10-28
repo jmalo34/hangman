@@ -30,43 +30,38 @@
 
     $app->get('/', function () use ($app)
     {
-        //what info do i need to GET?
-        //yay letters = then, which letters to display and which ones not to display yet, which message to show, number of chances remaining (how many in nay array), which picture to display
         $golden_letters = Guess::getWins();
 
         $guessed_letters = Guess::getYays();
 
         $matched_letters = array();
 
+        $replacement_letter = new Guess('__');
+
         foreach ($golden_letters as $g)
         {
-            if($g->matchUp())
+            if(in_array($g, $guessed_letters))
             {
                 array_push($matched_letters, $g);
             }
             else
             {
-                array_push($matched_letters, '__');
+                array_push($matched_letters, $replacement_letter);
             }
          }
 
 echo "<pre>";
-print_r($new_letter);
-echo "</pre><br>";
-
-echo "<pre>";
+echo "GOLDEN(WINNING ARRAY) LETTERS <br>";
 print_r($golden_letters);
 echo "</pre><br>";
 
 echo "<pre>";
+echo "GUESSED(YAY ARRAY) LETTERS <br>";
 print_r($guessed_letters);
 echo "</pre><br>";
 
 echo "<pre>";
-print_r($incorrect_guesses);
-echo "</pre><br>";
-
-echo "<pre>";
+echo "MATCHED LETTERS <br>";
 print_r($matched_letters);
 echo "</pre><br>";
 
@@ -93,10 +88,12 @@ echo "</pre><br>";
             }
 
 echo "<pre>";
+echo "NEW LETTER (OBJECT, INSTANCE OF GUESS CLASS) <br>";
 print_r($new_letter);
 echo "</pre><br>";
 
 echo "<pre>";
+echo "GOLDEN(WINNING ARRAY) LETTERS <br>";
 print_r($golden_letters);
 echo "</pre><br>";
 

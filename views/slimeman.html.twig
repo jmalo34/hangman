@@ -10,10 +10,9 @@
         <h2>nothing here yet</h2>
         {% else %}
         {% for match in matched_letters %}
-            {{ match }}
+            {{ match.getLetter }}
         {% endfor %}
         {% endif %}
-
         <form action='/new_guess'>
             <button type='submit'>Play</button>
         </form>

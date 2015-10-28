@@ -21,9 +21,14 @@ class Guess
         $this->letter = $new_letter;
     }
 
-    function matchUp()
+    function matchUp($guessed_letters)
     {
-        return (in_array($this->letter, (Guess::getYays())));
+        return (in_array($this->letter, $guessed_letters));
+
+        // if (in_array($this->letter, $guessed_letters)
+        // {
+        //     return $this->letter;
+        // }
     }
 // $golden_letters = Guess::getWins();
 // $guessed_letters = Guess::getYays();
